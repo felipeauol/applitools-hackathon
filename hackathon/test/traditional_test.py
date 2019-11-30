@@ -45,4 +45,7 @@ class TestTableSort():
   url = '/hackathonApp.html'
 
   def test_table_sorting(self, browser):
-    pass
+    dashboard_page = DashboardPage(browser, 'https://demo.applitools.com/hackathonApp.html')
+    dashboard_page.sort_table_by_amount()
+
+    assert dashboard_page.table_is_sorted()
