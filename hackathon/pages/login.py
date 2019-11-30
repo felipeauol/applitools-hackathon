@@ -1,11 +1,13 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from .base_page import BasePage
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from .base import BasePage
 
 class LoginPage(BasePage):
   LOGO_ICON = (By.CLASS_NAME, 'logo-w')
   HEADER = (By.CLASS_NAME, 'auth-header')
-  WARNING = (By.CLASS_NAME, 'alert-warning')
+  WARNING = (By.CSS_SELECTOR, '.alert-warning')
   USER_ICON = (By.CLASS_NAME, 'os-icon-user-male-circle')
   USER_INPUT = (By.CSS_SELECTOR, 'form input#username')
   PASS_ICON =(By.CLASS_NAME, 'os-icon-fingerprint')
@@ -43,13 +45,14 @@ class LoginPage(BasePage):
     return elem.get_attribute('placeholder')
 
   def set_username(self, value):
-    self.driver.find_element(*self.USER_INPUT).sendKeys(value)
+    self.driver.find_element(*self.USER_INPUT).send_keys(value)
 
   def set_password(self, value):
-    self.driver.find_element(*self.PASS_INPUT).sendKeys(value)
+    self.driver.find_element(*self.PASS_INPUT).send_keys(value)
 
   def submit(self):
     self.driver.find_element(*self.SUBMIT_BUTTON).click()
 
   def warning_text_matches(self, match):
     return self.driver.find_element(*self.WARNING).text == match
+
