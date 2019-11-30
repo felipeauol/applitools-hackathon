@@ -46,6 +46,10 @@ class TestTableSort():
 
   def test_table_sorting(self, browser):
     dashboard_page = DashboardPage(browser, 'https://demo.applitools.com/hackathonApp.html')
+    table_state_before = dashboard_page.table_state()
+
     dashboard_page.sort_table_by_amount()
+    table_state_after = dashboard_page.table_state()
 
     assert dashboard_page.table_is_sorted()
+    assert dashboard_page.table_is_intact(table_state_before, table_state_after)

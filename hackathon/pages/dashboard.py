@@ -28,10 +28,8 @@ class DashboardPage(BasePage):
     return (amount * -1) if '-' in string else amount
 
   def table_state(self):
-    pass
+    transactions = self.driver.find_elements(*self.TABLE_ROWS)
+    return [transaction.text for transaction in transactions]
 
-  def table_is_intact(self, original_state):
-    pass
-
-
-
+  def table_is_intact(self, state_before, state_after):
+    return all([original in state_after for original in state_before])
