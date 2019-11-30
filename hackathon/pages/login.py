@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from .base import BasePage
 
 class LoginPage(BasePage):
+  LOGIN_URL = 'https://demo.applitools.com/hackathon.html'
   LOGO_ICON = (By.CLASS_NAME, 'logo-w')
   HEADER = (By.CLASS_NAME, 'auth-header')
   WARNING = (By.CSS_SELECTOR, '.alert-warning')
@@ -15,7 +16,6 @@ class LoginPage(BasePage):
   FORM_LABELS = (By.CSS_SELECTOR, 'div.form-group label')
   REMEMBER_ME = (By.CSS_SELECTOR, 'label.form-check-label')
   SUBMIT_BUTTON = (By.ID, 'log-in')
-
 
   def username_label(self):
     return self.driver.find_elements(*self.FORM_LABELS)[0].text
@@ -56,3 +56,9 @@ class LoginPage(BasePage):
   def warning_text_matches(self, match):
     return self.driver.find_element(*self.WARNING).text == match
 
+class Login():
+  def __init__(self, browser, username='adm', password ='adm'):
+      browser.get(LoginPage.LOGIN_URL)
+      browser.find_element(*LoginPage.USER_INPUT).send_keys(username)
+      browser.find_element(*LoginPage.PASS_INPUT).send_keys(password)
+      browser.find_element(*LoginPage.SUBMIT_BUTTON).click()

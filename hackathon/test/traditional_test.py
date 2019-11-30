@@ -1,6 +1,9 @@
-from ..pages.login import LoginPage
+from ..pages.login import LoginPage, Login
+from ..pages.dashboard import DashboardPage
 
 class TestLoginPage():
+  url = '/hackathon.html'
+
   def test_items_present(self, browser):
     login_page = LoginPage(browser, 'https://demo.applitools.com/hackathon.html')
     login_page.open()
@@ -37,3 +40,9 @@ class TestLoginPage():
     login_page.submit()
     assert 'hackathonApp.html' in browser.current_url
     assert 'Login Form' not in browser.page_source
+
+class TestTableSort():
+  url = '/hackathonApp.html'
+
+  def test_table_sorting(self, browser):
+    pass
