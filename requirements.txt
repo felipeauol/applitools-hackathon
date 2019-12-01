@@ -1,0 +1,6 @@
+py==1.4.31
+pytest==5.3.1
+selenium==3.141.0
+ImageHash==4.0
+eyes-selenium==4.0.8
+python-dotenv==0.10.3
