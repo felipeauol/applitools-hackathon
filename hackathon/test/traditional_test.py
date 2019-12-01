@@ -1,5 +1,7 @@
 from ..pages.login import LoginPage, Login
 from ..pages.dashboard import DashboardPage
+from ..pages.chart import ChartPage
+import time
 
 class TestLoginPage():
   url = '/hackathon.html'
@@ -46,6 +48,7 @@ class TestTableSort():
 
   def test_table_sorting(self, browser):
     dashboard_page = DashboardPage(browser, 'https://demo.applitools.com/hackathonApp.html')
+    dashboard_page.open()
     table_state_before = dashboard_page.table_state()
 
     dashboard_page.sort_table_by_amount()
@@ -53,3 +56,25 @@ class TestTableSort():
 
     assert dashboard_page.table_is_sorted()
     assert dashboard_page.table_is_intact(table_state_before, table_state_after)
+
+class TestChartPage():
+  url = '/hackathonChart.html'
+
+  def test_current_year(self, browser):
+    chart_page = ChartPage(browser, 'https://demo.applitools.com/hackathonChart.html')
+    chart_page.open()
+    # sleep here since Canvas animation is slow. 
+    # TODO: Find alternative and remove.
+    time.sleep(0.35)
+    chart_page.capture_canvas_image(chart_page.DIFF_1)
+    assert chart_page.images_match(chart_page.BASELINE_1, chart_page.DIFF_1)
+
+  def test_next_year(self, browser):
+    chart_page = ChartPage(browser, 'https://demo.applitools.com/hackathonChart.html')
+    chart_page.open()
+    chart_page.add_data()
+    # sleep here since Canvas animation is slow. 
+    # TODO: Find alternative and remove.
+    time.sleep(0.35)
+    chart_page.capture_canvas_image(chart_page.DIFF_2)
+    assert chart_page.images_match(chart_page.BASELINE_2, chart_page.DIFF_2)
