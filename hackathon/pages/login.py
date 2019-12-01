@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from .base import BasePage
 
 class LoginPage(BasePage):
-  LOGIN_URL = 'https://demo.applitools.com/hackathon.html'
+  LOGIN_URL = 'https://demo.applitools.com/hackathonV2.html'
   LOGO_ICON = (By.CLASS_NAME, 'logo-w')
   HEADER = (By.CLASS_NAME, 'auth-header')
   WARNING = (By.CSS_SELECTOR, '.alert-warning')

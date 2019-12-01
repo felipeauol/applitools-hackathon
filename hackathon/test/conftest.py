@@ -11,7 +11,7 @@ batch_info = BatchInfo('Hackathon')
 def browser(request):
   driver = webdriver.Chrome()
   url = getattr(request.cls, 'url', '')
-  if not '/hackathon.html' in url:
+  if not '/hackathonV2.html' in url:
     # Perform log in process
     Login(driver)
   yield driver
