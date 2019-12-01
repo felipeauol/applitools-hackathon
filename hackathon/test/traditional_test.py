@@ -1,6 +1,7 @@
 from ..pages.login import LoginPage, Login
 from ..pages.dashboard import DashboardPage
 from ..pages.chart import ChartPage
+from ..pages.ads import AdsPage
 import time
 
 class TestLoginPage():
@@ -13,15 +14,15 @@ class TestLoginPage():
 
     assert 'Login Form' in login_page.form_header()
     assert 'Username' in login_page.username_label()
-    assert 'Enter your username' in login_page.username_input()
-    assert 'Password' in login_page.password_label()
-    assert 'Enter your password' in login_page.password_input()
+    assert 'John Smith' in login_page.username_input()
+    assert 'Pasword' in login_page.password_label()
+    assert 'ABC$*1@' in login_page.password_input()
 
   def test_authorization_errors(self, browser):
     login_page = LoginPage(browser, 'https://demo.applitools.com/hackathonV2.html')
     login_page.open()
     login_page.submit()
-    assert login_page.warning_text_matches('Both Username and Password must be present')
+    assert login_page.warning_text_matches('Please enter both username and password')
     
     login_page.open()
     login_page.set_username('admin')
@@ -34,13 +35,13 @@ class TestLoginPage():
     assert login_page.warning_text_matches('Username must be present')
   
   def test_valid_login(self, browser):
-    login_page = LoginPage(browser, 'https://demo.applitools.com/hackathon.html')
+    login_page = LoginPage(browser, 'https://demo.applitools.com/hackathonV2.html')
     login_page.open()
 
     login_page.set_username('admin')
     login_page.set_password('123')
     login_page.submit()
-    assert 'hackathonApp.html' in browser.current_url
+    assert 'hackathonAppv2.html' in browser.current_url
     assert 'Login Form' not in browser.page_source
 
 class TestTableSort():
@@ -78,3 +79,17 @@ class TestChartPage():
     time.sleep(0.35)
     chart_page.capture_canvas_image(chart_page.DIFF_2)
     assert chart_page.images_match(chart_page.BASELINE_2, chart_page.DIFF_2)
+
+  class TestAds():
+    url = '/hackathonAppV2.html?showAd=true'
+
+    def test_ads_present(self, browser):
+      ads_page = AdsPage(browser, 'https://demo.applitools.com/hackathonAppV2.html?showAd=true')
+      ads_page.open()
+
+      ads_page.capture_canvas_image(ads_page.AD_1, ads_page.CURRENT_AD_1)
+      ads_page.capture_canvas_image(ads_page.AD_2, ads_page.CURRENT_AD_2)
+      ads_page.capture_canvas_image(ads_page.AD_3, ads_page.CURRENT_AD_3)
+      assert ads_page.images_match(ads_page.BASE_AD_1, ads_page.CURRENT_AD_1), 'Ad_1 Mismatch!'
+      assert ads_page.images_match(ads_page.BASE_AD_2, ads_page.CURRENT_AD_2), 'Ad_2 Mismatch!'
+      assert ads_page.images_match(ads_page.BASE_AD_3, ads_page.CURRENT_AD_3), 'Ad_3 Mismatch!'
